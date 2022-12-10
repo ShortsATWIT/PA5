@@ -1,0 +1,103 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Student {
+
+	public static final String[] SEMESTERS = { "Summer", "Fall", "Spring" };
+
+	public static final int FT_CREDITS = 12;
+
+	final private static ArrayList<Student> all = new ArrayList<Student>();
+	private static int currentSemester;
+	private static int currentYear;
+
+	private static void init(int s, int y) {
+		currentSemester = s;
+		currentYear = y;
+		all.clear();
+	}
+
+	public static void resetSemesterYear() {
+		init(2, 2017);
+	}
+
+	public static void nextSemester() {
+		final int s = (currentSemester + 1) % SEMESTERS.length;
+		final int y = currentYear + ((s == 2) ? 1 : 0);
+		init(s, y);
+	}
+
+	public static String getCurrentSemester() {
+		return SEMESTERS[currentSemester];
+	}
+
+	public static int getCurrentYear() {
+		return currentYear;
+	}
+
+	public static String getCurrentSemesterYear() {
+		return String.format("%s %d", getCurrentSemester(), getCurrentYear());
+	}
+
+	public static List<Student> find(StudentFilter f) {
+		final ArrayList<Student> matches = new ArrayList<>();
+		for (Student s : all) {
+			if (f.test(s)) {
+				matches.add(s);
+			}
+		}
+		return matches;
+	}
+
+//
+	final private int myId;
+	final private String myMajor;
+	final private int mySemester;
+	final private int myYear;
+	private double myPoints;
+	private int myCredits;
+
+	public Student(String major) {
+		mySemester = currentSemester;
+		myYear = currentYear;
+		all.add(this);
+		myId = all.size();
+		myMajor = major;
+		myPoints = 0.;
+		myCredits = 0;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s %d #%d", SEMESTERS[mySemester], myYear, myId);
+	}
+
+	public String getSemester() {
+		return SEMESTERS[mySemester];
+	}
+
+	public int getYear() {
+		return myYear;
+	}
+
+	public String getMajor() {
+		return myMajor;
+	}
+
+	public void addClass(int credits, double weight) {
+		myPoints += (credits * weight);
+		myCredits += credits;
+	}
+
+	public boolean isFullTime() {
+		return myCredits >= FT_CREDITS;
+	}
+
+	public double getGPA() {
+		if (myCredits > 0) {
+			return myPoints / myCredits;
+		} else {
+			return 0;
+		}
+	}
+}
