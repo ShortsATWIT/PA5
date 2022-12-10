@@ -1,0 +1,6 @@
+import java.util.function.BiPredicate;
+
+@FunctionalInterface
+public interface IntTester extends BiPredicate<Integer, Integer> {
+
+}
