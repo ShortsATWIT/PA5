@@ -1,0 +1,7 @@
+public class FullTimeComputational implements StudentFilter {
+	@Override
+	public boolean test(Student s) {
+		return (s.isFullTime() && (s.getMajor().equals("BCOS") || s.getMajor().equals("BSCN")
+				|| s.getMajor().equals("BSIS") || s.getMajor().equals("BSCO")));
+	}
+}
