@@ -1,0 +1,8 @@
+public class LowGPA implements StudentFilter {
+	static final double LOW_GPA_THRESH = 1.5;
+
+	@Override
+	public boolean test(Student s) {
+		return s.getGPA() < LOW_GPA_THRESH;
+	}
+}
